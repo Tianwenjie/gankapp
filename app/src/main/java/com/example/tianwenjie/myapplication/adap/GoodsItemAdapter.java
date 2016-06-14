@@ -55,12 +55,12 @@ public class GoodsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
+         String str=string[position];
 
        final ImageView imageview= ((ImageViewHolder) holder).imgGoodsImageBg;
         imageview.setImageBitmap(null);
 
-        Utils.onLoadImage(url, new Utils.OnLoadImageListener() {
+        Utils.onLoadImage(str, new Utils.OnLoadImageListener() {
 
             @Override
             public void OnLoadImage(Bitmap bitmap, String bitmapPath) {

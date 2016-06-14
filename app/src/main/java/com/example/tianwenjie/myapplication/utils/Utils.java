@@ -6,19 +6,26 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 
+import com.example.tianwenjie.myapplication.MyApp;
+import com.example.tianwenjie.myapplication.SQList.SQLUtils;
+import com.example.tianwenjie.myapplication.SQList.SQtool;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by tianwenjie on 6/6/16.
  */
 public class Utils {
 
-    public static void onLoadImage(final URL bitmapUrl, final OnLoadImageListener onLoadImageListener) {
+    public static void onLoadImage(final String bitmapUrl, final OnLoadImageListener onLoadImageListener) {
+
         final Handler handler = new Handler() {
             public void handleMessage(Message msg) {
                 onLoadImageListener.OnLoadImage((Bitmap) msg.obj, null);
@@ -28,30 +35,63 @@ public class Utils {
 
             @Override
             public void run() {
+                SQLUtils utils = new SQLUtils(MyApp.gContext);
+                SQtool sqtool = new SQtool();
 
-                URL imageUrl = bitmapUrl;
+
+//                System.out.println(utils.query());
+
+                List<SQtool> all = utils.query();
+
+                if (all != null) {
+                    for (SQtool tool: all) {
+                        if (bitmapUrl.equals(tool.getUrl())) {
+                            //fuyong huancun复用缓存
+                            postBitmap(tool.getLocalurl(),handler);
+                            return;
+                        }
+                    }
+                }
+
+                URL url = null;
                 try {
-
-                    HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
-                    InputStream inputStream = conn.getInputStream();
-                    //图片保存在sd卡的路径
-                    String savePath = Environment.getExternalStorageDirectory() + "/" + getLastParagraph(imageUrl.getPath());
-                    readAsFile(inputStream, new File(savePath));
-                    //获取图片的路路径
-                    Bitmap bitmap = BitmapFactory.decodeFile(savePath);
-                    Message msg = new Message();
-                    msg.obj = bitmap;
-                    handler.sendMessage(msg);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (Exception e) {
+                    url = new URL(bitmapUrl);
+                } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
-            }
 
+
+
+                    try {
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        InputStream inputStream = conn.getInputStream();
+                        //图片保存在sd卡的路径
+                        String savePath = Environment.getExternalStorageDirectory() + "/" + getLastParagraph(url.getPath());
+                        readAsFile(inputStream, new File(savePath));
+                        //把图平的地址存在进数据库
+                        sqtool.setUrl(bitmapUrl);
+                        sqtool.setLocalurl(savePath);
+                        utils.add(sqtool);
+
+                        //获取图片
+                        postBitmap(savePath, handler);
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+            }
         }).start();
 
+    }
+
+    private static void postBitmap(String savePath, Handler handler) {
+        Bitmap bitmap = BitmapFactory.decodeFile(savePath);
+        Message msg = new Message();
+        msg.obj = bitmap;
+        handler.sendMessage(msg);
     }
 
 
