@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.example.tianwenjie.myapplication.adap.MainFragmentPagerAdapter;
 import com.example.tianwenjie.myapplication.conFig.Constants;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
 
         setupViewPager();
         mTabLayout.setupWithViewPager(mViewPager);
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+
+        .build();
+        ImageLoader.getInstance().init(config);
 
     }
 

@@ -25,6 +25,7 @@ public class GoodsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private final LayoutInflater mLayoutInflater;
     private final Context mContext;
+
     private String[] string = {"http://ww4.sinaimg.cn/large/7a8aed7bgw1etdsksgctqj20hs0qowgy.jpg",
             "http://ww1.sinaimg.cn/large/610dc034jw1f4kron1wqaj20ia0rf436.jpg",
             "http://ww2.sinaimg.cn/large/610dc034gw1f4hvgpjjapj20ia0ur0vr.jpg",

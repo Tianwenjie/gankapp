@@ -57,6 +57,7 @@ public class CommonGoodsListFragment extends BaseLoadingFragment implements  Swi
         //  return inflater.inflate(R.layout.fragment_common_list,container, false);
 
     }
+
     @Override
     public void onCompleted() {
         swipeRefreshLayout.setRefreshing(false);
