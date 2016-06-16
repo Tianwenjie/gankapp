@@ -66,15 +66,9 @@ public class BenefitListFragment extends BaseFragment {
     }
 
     private void getJsonData() {
-        String url = "http://c.3g.163.com/recommend/getChanListNews?" +
-                "channel=T1456112189138&size=20&passport=&devId=1uuFYbybIU2oqSRGyFrjCw%3D%3D" +
-                "&lat=%2F%2FOm%2B%2F8ScD%2B9fX1D8bxYWg%3D%3D&lon=LY2l8sFCNzaGzqWEPPgmUw%3D%3D" +
-                "&version=9.0&net=wifi&ts=1464769308" +
-                "&sign=bOVsnQQ6gJamli6%2BfINh6fC%2Fi9ydsM5XXPKOGRto5G948ErR02zJ6%2FKXOnxX046I" +
-                "&encryption=1&canal=meizu_store2014_news" +
-                "&mac=sSduRYcChdp%2BBL1a9Xa%2F9TC0ruPUyXM4Jwce4E9oM30%3D";
+        String url = "http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1";
 
-        //
+
         RequestQueue requestQueue = Volley.newRequestQueue(mActivity);
         StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
@@ -83,7 +77,7 @@ public class BenefitListFragment extends BaseFragment {
                 try {
                     List<ImageBean> list = new ArrayList<>();
                     JSONObject jsonObject = new JSONObject(s);
-                    JSONArray array = jsonObject.optJSONArray("美女");
+                    JSONArray array = jsonObject.optJSONArray("results");
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject item = array.optJSONObject(i);
                         String imgsrc = item.optString("imgsrc");
@@ -92,7 +86,7 @@ public class BenefitListFragment extends BaseFragment {
                         bean.setImgsrc(imgsrc);
                         bean.setTitle(title);
                         list.add(bean);
-                        Log.d("img", "imgsrc=" + imgsrc);
+                        Log.d("img", "who=" + imgsrc);
                     }
 
                     mAdapter.getList().addAll(list);

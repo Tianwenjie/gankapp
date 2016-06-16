@@ -4,7 +4,6 @@ package com.example.tianwenjie.myapplication;
 import android.support.v4.app.Fragment;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,10 @@ import android.view.ViewGroup;
 import com.vlonjatg.progressactivity.ProgressActivity;
 
 
-
 /**
  * Created by tianwenjie on 6/2/16.
  */
-public  abstract class BaseLoadingFragment extends Fragment   {
+public abstract class BaseLoadingFragment extends Fragment {
 
     private ProgressActivity mProgressActivity;
 
